@@ -1,1 +1,7 @@
 En este directorio voy a guardar el todos los archivos y reportes del Pentaho
+
+Directorios:
+
+home      Directorio de usuarios
+public    Directorio publico
+Reportes  Directorio de reportes
