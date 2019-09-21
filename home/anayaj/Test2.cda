@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="DWH_mes" type="mondrian.jdbc">
+         <Catalog>mondrian:/Ventas</Catalog>
+         <Driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</Driver>
+         <Pass>Cc@QYf7bxUKEJ</Pass>
+         <Url>jdbc:sqlserver://192.168.3.52:1433</Url>
+         <User>dwh</User>
+      </Connection>
+      <Connection id="DWH_grafica" type="mondrian.jdbc">
+         <Catalog>mondrian:/Ventas</Catalog>
+         <Driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</Driver>
+         <Pass>Cc@QYf7bxUKEJ</Pass>
+         <Url>jdbc:sqlserver://192.168.3.52:1433</Url>
+         <User>dwh</User>
+      </Connection>
+      <Connection id="test_grafica" type="mondrian.jndi">
+         <Catalog>mondrian:/Ventas</Catalog>
+         <Jndi>DWH</Jndi>
+      </Connection>
+      <Connection id="test_mes" type="mondrian.jndi">
+         <Catalog>mondrian:/Ventas</Catalog>
+         <Jndi>DWH</Jndi>
+      </Connection>
+      <Connection id="DWH_grafica_" type="sql.jdbc">
+         <Driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</Driver>
+         <Pass>Cc@QYf7bxUKEJ</Pass>
+         <Url>jdbc:sqlserver://192.168.3.52:1433</Url>
+         <User>dwh</User>
+      </Connection>
+      <Connection id="DWH_mes_" type="sql.jdbc">
+         <Driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</Driver>
+         <Pass>Cc@QYf7bxUKEJ</Pass>
+         <Url>jdbc:sqlserver://192.168.3.52:1433</Url>
+         <User>dwh</User>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" connection="DWH_mes" id="DWH_mes" type="mdx">
+      <Name>DWH_mes</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[select distinct l.desc_tie_mesanio, l.id_tie_mes from dbo.lk_tie_fecha l
+where l.id_tie_mes >= 201901
+order by l.id_tie_mes]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="DWH_grafica" id="DWH_grafica" type="mdx">
+      <Name>DWH_grafica</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[SELECT e.desc_tie_mesanio, p.desc_pro_linea, sum(g.imp_itemneto) as Facturacion_neta_historica
+FROM dbo.v_ft_detalle_ventas g
+inner join dbo.lk_tie_fecha e on e.id_tie_fecha = g.id_tie_fecha_emision
+inner join dbo.v_lk_pro_producto p on p.id_pro_producto = g.id_pro_producto
+where e.id_tie_mes = 201908
+group by e.desc_tie_mesanio, p.desc_pro_linea
+order by sum(g.imp_itemneto) desc]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="test_grafica" id="test_grafica" type="mdx">
+      <Name>test_grafica</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[SELECT e.desc_tie_mesanio, p.desc_pro_linea, sum(g.imp_itemneto) as Facturacion_neta_historica
+FROM dbo.v_ft_detalle_ventas g
+inner join dbo.lk_tie_fecha e on e.id_tie_fecha = g.id_tie_fecha_emision
+inner join dbo.v_lk_pro_producto p on p.id_pro_producto = g.id_pro_producto
+where e.id_tie_mes = 201908
+group by e.desc_tie_mesanio, p.desc_pro_linea
+order by sum(g.imp_itemneto) desc]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="test_mes" id="test_mes" type="mdx">
+      <Name>test_mes</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[select desc_tie_mesanio from dbo.lk_tie_fecha]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="DWH_grafica_" id="DWH_grafica_" type="sql">
+      <Name>DWH_grafica_</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[SELECT e.desc_tie_mesanio, p.desc_pro_linea, sum(g.imp_itemneto) as Facturacion_neta_historica
+FROM dbo.v_ft_detalle_ventas g
+inner join dbo.lk_tie_fecha e on e.id_tie_fecha = g.id_tie_fecha_emision
+inner join dbo.v_lk_pro_producto p on p.id_pro_producto = g.id_pro_producto
+where e.id_tie_mes = 201908
+group by e.desc_tie_mesanio, p.desc_pro_linea
+order by sum(g.imp_itemneto) desc]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="DWH_mes_" id="DWH_mes_" type="sql">
+      <Name>DWH_mes_</Name>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[select distinct l.desc_tie_mesanio, l.id_tie_mes from dbo.lk_tie_fecha l
+where l.id_tie_mes >= 201901
+order by l.id_tie_mes]]></Query>
+   </DataAccess>
+</CDADescriptor>
